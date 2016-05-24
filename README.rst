@@ -30,7 +30,7 @@ Example::
 - `Online Documentation <https://github.com/MacHu-GWU/loggerFactory-project>`_
 - `PyPI download <https://pypi.python.org/pypi/loggerFactory>`_
 - `Install <install_>`_
-- `Issue submit and feature request <https://github.com/MacHu-GWU/angora-project/issues>`_
+- `Issue submit and feature request <https://github.com/MacHu-GWU/loggerFactory-project/issues>`_
 
 
 .. _install:
