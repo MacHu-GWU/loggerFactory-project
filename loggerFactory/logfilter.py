@@ -2,6 +2,11 @@
 # -*- coding: utf-8 -*-
 
 """
+If your log file is in a standard format, then this module can help you filter
+out log information that you care aboue.
+
+**中文文档**
+
 如果你的日志格式是标准的 "%(asctime)s; %(levelname)-8s; %(message)s"。那么本
 模块中的函数能够帮助您从日志中轻松的找到你感兴趣的结果。
 """

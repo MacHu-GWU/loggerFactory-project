@@ -13,7 +13,7 @@ def test():
     logger.warning("Warning message", 2)
     logger.error("Error message", 3)
     logger.critical("Critical message", 4)
-    logger.unlink_logfile()
+    logger.remove_all_handler()
 
     result = find("log.txt", message="info", case_sensitive=False)
     result.dump("result.txt")

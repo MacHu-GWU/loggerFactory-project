@@ -8,10 +8,14 @@ import logging
 import logging.handlers
 
 
-__version__ = "0.0.1"
+__version__ = "0.0.2"
 __short_description__ = "Provide several commonly used logger."
 __author__ = "Sanhe Hu"
 __license__ = "MIT"
+
+
+DEFAULT_LOG_FORMAT = "%(asctime)s; %(levelname)-8s; %(message)s"
+DEFAULT_STREAM_FORMAT = "%(message)s"
 
 
 class BaseLogger(object):
@@ -66,15 +70,14 @@ class BaseLogger(object):
         if self.enable_verbose:
             sys.stderr.write("%s%s\n" % (self.tab * indent, msg))
 
-    def unlink_logfile(self):
+    def remove_all_handler(self):
         """Unlink the file handler association.
         """
         for handler in self.logger.handlers[:]:
-            if "FileHandler" in handler.__class__.__name__:
-                self.logger.removeHandler(handler)
-                self._handler_cache.append(handler)
+            self.logger.removeHandler(handler)
+            self._handler_cache.append(handler)
     
-    def relink_logfile(self):
+    def recover_all_handler(self):
         """Relink the file handler association you just removed.
         """
         for handler in self._handler_cache:
@@ -89,7 +92,7 @@ class StreamOnlyLogger(BaseLogger):
     
     只将日志打印到控制台, 并不将日志信息写入到文件。
     """
-    def __init__(self, stream_format="%(asctime)s: %(message)s"):
+    def __init__(self, stream_format=DEFAULT_STREAM_FORMAT):
         logger = logging.getLogger()
         
         # Set Logging Level
@@ -98,8 +101,6 @@ class StreamOnlyLogger(BaseLogger):
         # Set Stream Handler
         stream_handler = logging.StreamHandler()
         stream_handler.setLevel(logging.DEBUG)
-        logger.addHandler(stream_handler)
-
         stream_handler.setFormatter(logging.Formatter(stream_format))
         logger.addHandler(stream_handler)
         
@@ -119,8 +120,8 @@ class SingleFileLogger(BaseLogger):
     def __init__(self, name, path,
             logging_level="debug",
             stream_level="info",
-            logging_format="%(asctime)s; %(levelname)-8s; %(message)s",
-            stream_format="%(asctime)s; %(levelname)-8s; %(message)s",
+            logging_format=DEFAULT_LOG_FORMAT,
+            stream_format=DEFAULT_STREAM_FORMAT,
             reset=False,
         ):
         logger = logging.getLogger(name)
@@ -142,6 +143,7 @@ class SingleFileLogger(BaseLogger):
         # Set Stream Handler
         stream_handler = logging.StreamHandler()
         stream_handler.setLevel(self.validate_level(stream_level))
+        stream_handler.setFormatter(logging.Formatter(stream_format))        
         logger.addHandler(stream_handler)
         
         self.logger = logger
@@ -159,8 +161,8 @@ class FileRotatingLogger(BaseLogger):
     def __init__(self, name, path,
             logging_level="debug",
             stream_level="info",
-            logging_format="%(asctime)s; %(levelname)-8s; %(message)s",
-            stream_format="%(asctime)s; %(levelname)-8s; %(message)s",
+            logging_format=DEFAULT_LOG_FORMAT,
+            stream_format=DEFAULT_STREAM_FORMAT,
             max_bytes=100000000,
             backup_count=10,
         ):
@@ -181,6 +183,7 @@ class FileRotatingLogger(BaseLogger):
         # Set Stream Handler
         stream_handler = logging.StreamHandler()
         stream_handler.setLevel(self.validate_level(stream_level))
+        stream_handler.setFormatter(logging.Formatter(stream_format))
         logger.addHandler(stream_handler)
         
         self.logger = logger
@@ -198,8 +201,8 @@ class TimeRotatingLogger(BaseLogger):
     def __init__(self, name, path,
             logging_level="debug",
             stream_level="info",
-            logging_format="%(asctime)s; %(levelname)-8s; %(message)s",
-            stream_format="%(asctime)s; %(levelname)-8s; %(message)s",
+            logging_format=DEFAULT_LOG_FORMAT,
+            stream_format=DEFAULT_STREAM_FORMAT,
             rotate_on_when="D",
             interval=1,
             backup_count=30,
@@ -223,6 +226,7 @@ class TimeRotatingLogger(BaseLogger):
         # Set Stream Handler
         stream_handler = logging.StreamHandler()
         stream_handler.setLevel(self.validate_level(stream_level))
+        stream_handler.setFormatter(logging.Formatter(stream_format))
         logger.addHandler(stream_handler)
         
         self.logger = logger
