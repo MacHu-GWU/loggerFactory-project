@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import pytest
 from loggerFactory import FileRotatingLogger
 
 def test():
-    logger = FileRotatingLogger("root", "log.txt", max_bytes=1)
+    logger = FileRotatingLogger("file_rotating_logger", "log.txt", max_bytes=1)
     
     logger.debug("debug") # nothing
     logger.info("info") # displayed, but not logged
@@ -15,4 +16,6 @@ def test():
     logger.remove_all_handler()
     
 if __name__ == "__main__":
-    test()
+    import os
+
+    pytest.main([os.path.basename(__file__), "--tb=native", "-s", ])

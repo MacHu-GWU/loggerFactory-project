@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import print_function
+import pytest
 from loggerFactory import SingleFileLogger
 from loggerFactory.logfilter import find
 
@@ -20,6 +21,7 @@ def test():
     print(result)
 
 
-#--- Unittest ---
 if __name__ == "__main__":
-    test()
+    import os
+
+    pytest.main([os.path.basename(__file__), "--tb=native", "-s", ])

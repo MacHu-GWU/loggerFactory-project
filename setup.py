@@ -19,7 +19,7 @@ try:
 except:
     print("'__short_description__' not found in '%s.__init__.py'!" % NAME)
     SHORT_DESCRIPTION = "No short description!"
-    
+
 try:
     LONG_DESCRIPTION = open("README.rst", "rb").read().decode("utf-8")
 except:

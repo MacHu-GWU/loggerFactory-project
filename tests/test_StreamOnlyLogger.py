@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import pytest
 from loggerFactory import StreamOnlyLogger
+
 
 def test():
     logger = StreamOnlyLogger()
@@ -10,12 +12,15 @@ def test():
     logger.warning("warning", 2)
     logger.error("error", 3)
     logger.critical("critical", 4)
-    
-    logger.show("show")
-    logger.enable_verbose = False # disable display message
-    logger.show("show") # nothing
-    
+
+    logger("show")
+    logger.enable_verbose = False  # disable display message
+    logger("show")  # nothing
+
     logger.remove_all_handler()
-    
+
+
 if __name__ == "__main__":
-    test()
+    import os
+
+    pytest.main([os.path.basename(__file__), "--tb=native", "-s", ])
