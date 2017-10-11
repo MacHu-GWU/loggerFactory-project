@@ -3,6 +3,7 @@
 
 __version__ = "0.0.4"
 __short_description__ = "Provide several commonly used logger."
+__license__ = "MIT"
 __author__ = "Sanhe Hu"
 __author_email__ = "husanhe@gmail.com"
 __maintainer__ = "Sanhe Hu"
