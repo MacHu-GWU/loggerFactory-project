@@ -2,11 +2,13 @@
 # -*- coding: utf-8 -*-
 
 import pytest
-from loggerFactory import SingleFileLogger
+from loggerFactory import DebugLevel, SingleFileLogger
+from util import read_lines
 
 
 def test():
-    logger = SingleFileLogger("single_file_logger", "log.txt", reset=True)
+    path = "SingleFileLogger.log"
+    logger = SingleFileLogger(path=path, reset=True)
 
     logger.remove_all_handler()  # unlink file association
     logger.debug("debug")  # nothing
@@ -19,8 +21,12 @@ def test():
 
     logger.remove_all_handler()
 
+    lines = read_lines(path)
+    assert len(lines) == 3
+
 
 if __name__ == "__main__":
     import os
 
-    pytest.main([os.path.basename(__file__), "--tb=native", "-s", ])
+    basename = os.path.basename(__file__)
+    pytest.main([basename, "-s", "--tb=native"])

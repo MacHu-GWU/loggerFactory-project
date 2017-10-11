@@ -15,37 +15,42 @@ from __future__ import print_function
 
 
 class Result(object):
-    def __init__(self, path, 
-            level, message, time_lower, time_upper, case_sensitive):
+    def __init__(self, path,
+                 level, message, time_lower, time_upper, case_sensitive):
         self.path = path
         self.level = level
         self.message = message
         self.time_lower = time_lower
         self.time_upper = time_upper
         self.case_sensitive = case_sensitive
-        
+
         self.lines = list()
-    
+
     def __str__(self):
         return self.header + "\n" + "".join(self.lines)
-    
+
     @property
     def header(self):
-        template = ("--- Result of: filepath=%r, level=%r, pattern=%r," 
+        template = ("--- Result of: filepath=%r, level=%r, pattern=%r,"
                     "time_lower=%r, time_upper=%r, case_sensitive=%r ---")
-        return template % (self.path, 
-            self.level, self.message, 
-            self.time_lower, self.time_upper, self.case_sensitive,
-        )
-        
+        return template % (self.path,
+                           self.level, self.message,
+                           self.time_lower, self.time_upper,
+                           self.case_sensitive,
+                           )
+
     def dump(self, path):
         with open(path, "wb") as f:
             f.write(str(self).encode("utf-8"))
 
 
-def find(path, level=None, message=None, 
-        time_lower=None, time_upper=None, case_sensitive=False):
-    """Filter log message.
+def find(path,
+         level=None,
+         message=None,
+         time_lower=None, time_upper=None,
+         case_sensitive=False):  # pragma: no cover
+    """
+    Filter log message.
 
     **中文文档**
 
@@ -56,14 +61,14 @@ def find(path, level=None, message=None,
 
     if not case_sensitive:
         message = message.lower()
-    
+
     with open(path, "r") as f:
-        result = Result(path=path, 
-            level=level, message=message, 
-            time_lower=time_lower, time_upper=time_upper, 
-            case_sensitive=case_sensitive,
-        )
-        
+        result = Result(path=path,
+                        level=level, message=message,
+                        time_lower=time_lower, time_upper=time_upper,
+                        case_sensitive=case_sensitive,
+                        )
+
         for line in f:
             try:
                 _time, _level, _message = [i.strip() for i in line.split(";")]
@@ -89,6 +94,6 @@ def find(path, level=None, message=None,
 
                 result.lines.append(line)
             except Exception as e:
-               print(e)
+                print(e)
 
     return result

@@ -7,7 +7,7 @@ from loggerFactory import StreamOnlyLogger
 
 def test():
     logger = StreamOnlyLogger()
-    logger.debug("debug", 0)
+    logger.debug("debug", 0)  # not displayed
     logger.info("info", 1)
     logger.warning("warning", 2)
     logger.error("error", 3)
@@ -15,7 +15,7 @@ def test():
 
     logger("show")
     logger.enable_verbose = False  # disable display message
-    logger("show")  # nothing
+    logger("show")  # not displayed
 
     logger.remove_all_handler()
 
@@ -23,4 +23,5 @@ def test():
 if __name__ == "__main__":
     import os
 
-    pytest.main([os.path.basename(__file__), "--tb=native", "-s", ])
+    basename = os.path.basename(__file__)
+    pytest.main([basename, "-s", "--tb=native"])

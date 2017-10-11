@@ -8,7 +8,8 @@ from loggerFactory import TimeRotatingLogger
 
 
 def test():
-    logger = TimeRotatingLogger("time_rotating_logger", "log.txt", rotate_on_when="S")
+    path = "log.txt"
+    logger = TimeRotatingLogger(path=path, rotate_on_when="S")
 
     logger.debug("hello")
     time.sleep(1.0)
@@ -31,4 +32,5 @@ def test():
 if __name__ == "__main__":
     import os
 
-    pytest.main([os.path.basename(__file__), "--tb=native", "-s", ])
+    basename = os.path.basename(__file__)
+    pytest.main([basename, "-s", "--tb=native"])
