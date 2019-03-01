@@ -14,6 +14,9 @@ from __future__ import print_function
 
 
 class Result(object):
+    """
+    Filter Results Object.
+    """
     def __init__(self, path,
                  level, message, time_lower, time_upper, case_sensitive):
         self.path = path

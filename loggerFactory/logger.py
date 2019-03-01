@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 
+"""
+Implements
+"""
+
 from __future__ import print_function
 import logging
 from logging.handlers import RotatingFileHandler, TimedRotatingFileHandler

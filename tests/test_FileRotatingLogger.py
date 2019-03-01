@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import os
 import pytest
 from loggerFactory.logger import FileRotatingLogger
 
