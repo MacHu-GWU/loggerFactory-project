@@ -3,10 +3,10 @@ loggerFactory_venv/
 loggerFactory.egg-info/
 loggerFactory-*/
 index.rst
-*.txt
-*.txt.*
-*.log
-*.log.*
+tests/*.txt
+tests/*.txt.*
+tests/*.log
+tests/*.log.*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
