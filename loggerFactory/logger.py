@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 import sys
@@ -18,11 +17,11 @@ def random_str(charset, length=32):
     return "".join([random.choice(charset) for _ in range(length)])
 
 
-def get_logger_by_name(name=None):
+def get_logger_by_name(name=None, rand_name=False):
     """
     Get a logger by name. If name is not provided, a random name will be used.
     """
-    if name is None:
+    if rand_name:
         name = random_str(string.hexdigits)
     logger = logging.getLogger(name)
     return logger
@@ -109,10 +108,10 @@ class StreamOnlyLogger(BaseLogger):
     只将日志打印到控制台, 并不将日志信息写入到文件。
     """
 
-    def __init__(self, name=None,
+    def __init__(self, name=None, rand_name=False,
                  stream_level=DebugLevel.info,
                  stream_format=DEFAULT_STREAM_FORMAT):
-        logger = get_logger_by_name(name)
+        logger = get_logger_by_name(name, rand_name)
 
         # Set Logging Level
         logger.setLevel(logging.DEBUG)
@@ -135,14 +134,13 @@ class SingleFileLogger(BaseLogger):
     日志被写入到单个文件中。
     """
 
-    def __init__(self, name=None, path=None,
+    def __init__(self, name=None, rand_name=False, path=None,
                  logging_level=DebugLevel.debug,
                  stream_level=DebugLevel.info,
                  logging_format=DEFAULT_LOG_FORMAT,
                  stream_format=DEFAULT_STREAM_FORMAT,
-                 reset=False,
-                 ):
-        logger = get_logger_by_name(name)
+                 reset=False):
+        logger = get_logger_by_name(name, rand_name)
         if path is None:  # pragma: no cover
             raise ValueError("Please specify a file as log path!")
 
@@ -179,15 +177,14 @@ class FileRotatingLogger(BaseLogger):
     当日志文件的体积大于某个阈值时, 自动重名名, 将日志录入到新的文件中。
     """
 
-    def __init__(self, name=None, path=None,
+    def __init__(self, name=None, rand_name=False, path=None,
                  logging_level=DebugLevel.debug,
                  stream_level=DebugLevel.info,
                  logging_format=DEFAULT_LOG_FORMAT,
                  stream_format=DEFAULT_STREAM_FORMAT,
                  max_bytes=1000000000,  # 1GB
-                 backup_count=10,
-                 ):
-        logger = logging.getLogger(name)
+                 backup_count=10):
+        logger = get_logger_by_name(name, rand_name)
         if path is None:  # pragma: no cover
             raise ValueError("Please specify a file as log path!")
 
@@ -223,16 +220,15 @@ class TimeRotatingLogger(BaseLogger):
     根据日志发生的时间, 每隔一定时间就更换一个文件名。
     """
 
-    def __init__(self, name=None, path=None,
+    def __init__(self, name=None, rand_name=False, path=None,
                  logging_level=DebugLevel.debug,
                  stream_level=DebugLevel.info,
                  logging_format=DEFAULT_LOG_FORMAT,
                  stream_format=DEFAULT_STREAM_FORMAT,
                  rotate_on_when="D",
                  interval=1,
-                 backup_count=30,
-                 ):
-        logger = logging.getLogger(name)
+                 backup_count=30):
+        logger = get_logger_by_name(name, rand_name)
         if path is None:  # pragma: no cover
             raise ValueError("Please specify a file as log path!")
 
