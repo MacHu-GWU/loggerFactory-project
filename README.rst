@@ -20,14 +20,16 @@
 Welcome to ``loggerFactory`` Documentation
 ==============================================================================
 
-``loggerFactory`` include some commonly used logger. You can create a super easy to use logger in minimal code.
+Construct **Stream Handler** and **File Handler** is so boring. ``loggerFactory`` include some commonly used logger out-of-the-box. You can create a super easy to use logger in **minimal code**.
 
-Example::
+Example:
+
+.. code-block:: python
 
     import loggerFactory
 
     # log to console
-    logger = loggerFactory.StreamOnlyLogger(name="stream_only")
+    logger = loggerFactory.StreamOnlyLogger(rand_name=True)
     logger.warning("Some thing wrong!")
 
     # log to file
@@ -42,9 +44,28 @@ Example::
     logger = loggerFactory.TimeRotatingLogger(path="log.txt")
 
 
+Use color and indent to format your print:
+
+.. code-block:: python
+
+    import loggerFactory
+
+    logger = loggerFactory.BaseLogger()
+    logger.show_in_red("Hello", indent=0)
+    logger.show_in_blue("Hello", indent=1)
+    logger.show_in_yellow("Hello", indent=2)
+    logger.show_in_green("Hello", indent=3)
+    logger.show_in_cyan("Hello", indent=4)
+    logger.show_in_meganta("Hello", indent=5)
+
+.. image:: https://user-images.githubusercontent.com/6800411/53650419-7ca86780-3c12-11e9-99c7-bf7baccb3fc4.png
+
+
 If you are using default log format ``%(asctime)s; %(levelname)-8s; %(message)s``, a ``logfilter`` can help you search log info.
 
-Example::
+Example:
+
+.. code-block:: python
 
     from loggerFactory import find
 
@@ -59,12 +80,6 @@ Example::
 
 Quick Links
 ------------------------------------------------------------------------------
-
-- .. image:: https://img.shields.io/badge/Link-Document-red.svg
-      :target: http://www.wbh-doc.com.s3.amazonaws.com/loggerFactory/index.html
-
-- .. image:: https://img.shields.io/badge/Link-API_Reference_and_Source_Code-red.svg
-      :target: http://www.wbh-doc.com.s3.amazonaws.com/loggerFactory/py-modindex.html
 
 - .. image:: https://img.shields.io/badge/Link-Install-red.svg
       :target: `install`_

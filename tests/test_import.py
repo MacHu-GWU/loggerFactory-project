@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 import pytest
@@ -7,7 +6,10 @@ from pytest import raises, approx
 
 def test():
     import loggerFactory
-    pass
+    loggerFactory.StreamOnlyLogger
+    loggerFactory.SingleFileLogger
+    loggerFactory.FileRotatingLogger
+    loggerFactory.TimeRotatingLogger
 
 
 if __name__ == "__main__":

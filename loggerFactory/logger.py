@@ -1,38 +1,26 @@
 # -*- coding: utf-8 -*-
 
-import sys
-import string
-import random
+from __future__ import print_function
 import logging
 from logging.handlers import RotatingFileHandler, TimedRotatingFileHandler
+from colorama import Fore, Back, Style
+from .rand_str import Charset, rand_str
 
 DEFAULT_LOG_FORMAT = "%(asctime)s; %(levelname)-8s; %(message)s"
 DEFAULT_STREAM_FORMAT = "%(message)s"
 
 
-def random_str(charset, length=32):
+def get_logger_by_name(name=None, rand_name=False, charset=Charset.HEX):
     """
-    Generate random string.
-    """
-    return "".join([random.choice(charset) for _ in range(length)])
+    Get a logger by name.
 
-
-def get_logger_by_name(name=None, rand_name=False):
-    """
-    Get a logger by name. If name is not provided, a random name will be used.
+    :param name: None / str, logger name.
+    :param rand_name: if True, ``name`` will be ignored, a random name will be used.
     """
     if rand_name:
-        name = random_str(string.hexdigits)
+        name = rand_str(charset)
     logger = logging.getLogger(name)
     return logger
-
-
-class DebugLevel(object):
-    debug = logging.DEBUG
-    info = logging.INFO
-    warning = logging.WARNING
-    error = logging.ERROR
-    critical = logging.CRITICAL
 
 
 def set_stream_handler(logger, stream_level, stream_format):
@@ -43,55 +31,90 @@ def set_stream_handler(logger, stream_level, stream_format):
 
 
 class BaseLogger(object):
-    """A base class for logger constructor.
+    """
+    A base class for logger constructor.
     """
     tab = "    "
     enable_verbose = True
-    _handler_cache = list()
     logger = None
 
-    def debug(self, msg, indent=0):
-        """Call logger.debug, indent format may apply.
-        """
-        self.logger.debug("%s%s" % (self.tab * indent, msg))
+    Fore = Fore
+    Back = Back
+    Style = Style
 
-    def info(self, msg, indent=0):
-        """Call logger.info, indent format may apply.
-        """
-        self.logger.info("%s%s" % (self.tab * indent, msg))
+    class MessageTemplate(object):
+        with_style = "{indent}{style}{msg}" + Style.RESET_ALL
 
-    def warning(self, msg, indent=0):
-        """Call logger.warning, indent format may apply.
-        """
-        self.logger.warning("%s%s" % (self.tab * indent, msg))
+    def __init__(self, name=None, rand_name=False, **kwargs):
+        self.logger = get_logger_by_name(name, rand_name)
+        self._handler_cache = list()
 
-    def error(self, msg, indent=0):
-        """Call logger.error, indent format may apply.
-        """
-        self.logger.error("%s%s" % (self.tab * indent, msg))
+    def _indent(self, msg, indent):
+        return "%s%s" % (self.tab * indent, msg)
 
-    def critical(self, msg, indent=0):
-        """Call logger.critical, indent format may apply.
-        """
-        self.logger.critical("%s%s" % (self.tab * indent, msg))
+    def debug(self, msg, indent=0, **kwargs):
+        """invoke ``self.logger.debug``"""
+        return self.logger.debug(self._indent(msg, indent), **kwargs)
 
-    def show(self, msg, indent=0):
-        """Print message to console, indent format may apply.
+    def info(self, msg, indent=0, **kwargs):
+        """invoke ``self.info.debug``"""
+        return self.logger.info(self._indent(msg, indent), **kwargs)
+
+    def warning(self, msg, indent=0, **kwargs):
+        """invoke ``self.logger.warning``"""
+        return self.logger.warning(self._indent(msg, indent), **kwargs)
+
+    def error(self, msg, indent=0, **kwargs):
+        """invoke ``self.logger.error``"""
+        return self.logger.error(self._indent(msg, indent), **kwargs)
+
+    def critical(self, msg, indent=0, **kwargs):
+        """invoke ``self.logger.critical``"""
+        return self.logger.critical(self._indent(msg, indent), **kwargs)
+
+    def show(self, msg, indent=0, style="", **kwargs):
+        """
+        Print message to console, indent format may apply.
         """
         if self.enable_verbose:
-            sys.stderr.write("%s%s\n" % (self.tab * indent, msg))
+            new_msg = self.MessageTemplate.with_style.format(
+                indent=self.tab * indent,
+                style=style,
+                msg=msg,
+            )
+            print(new_msg, **kwargs)
+
+    def show_in_red(self, msg, indent=0, **kwargs):
+        self.show(msg, indent, Fore.LIGHTRED_EX, **kwargs)
+
+    def show_in_blue(self, msg, indent=0, **kwargs):
+        self.show(msg, indent, Fore.LIGHTBLUE_EX, **kwargs)
+
+    def show_in_yellow(self, msg, indent=0, **kwargs):
+        self.show(msg, indent, Fore.LIGHTYELLOW_EX, **kwargs)
+
+    def show_in_green(self, msg, indent=0, **kwargs):
+        self.show(msg, indent, Fore.GREEN, **kwargs)
+
+    def show_in_cyan(self, msg, indent=0, **kwargs):
+        self.show(msg, indent, Fore.CYAN, **kwargs)
+
+    def show_in_meganta(self, msg, indent=0, **kwargs):
+        self.show(msg, indent, Fore.MAGENTA, **kwargs)
 
     __call__ = show
 
     def remove_all_handler(self):
-        """Unlink the file handler association.
+        """
+        Unlink the file handler association.
         """
         for handler in self.logger.handlers[:]:
             self.logger.removeHandler(handler)
             self._handler_cache.append(handler)
 
     def recover_all_handler(self):
-        """Relink the file handler association you just removed.
+        """
+        Relink the file handler association you just removed.
         """
         for handler in self._handler_cache:
             self.logger.addHandler(handler)
@@ -99,31 +122,34 @@ class BaseLogger(object):
 
 
 class StreamOnlyLogger(BaseLogger):
-    """This logger only print message to console, and not write log to files.
+    """
+    This logger only print message to console, and not write log to files.
 
-    :param stream_format： log information format.
+    :param stream_level: level above this will be streamed.
+    :param stream_format: log information format.
 
     **中文文档**
 
     只将日志打印到控制台, 并不将日志信息写入到文件。
     """
 
-    def __init__(self, name=None, rand_name=False,
-                 stream_level=DebugLevel.info,
+    def __init__(self,
+                 name=None,
+                 rand_name=False,
+                 stream_level=logging.INFO,
                  stream_format=DEFAULT_STREAM_FORMAT):
-        logger = get_logger_by_name(name, rand_name)
+        super(StreamOnlyLogger, self).__init__(name, rand_name)
 
         # Set Logging Level
-        logger.setLevel(logging.DEBUG)
+        self.logger.setLevel(logging.DEBUG)
 
         # Set Stream Handler
-        set_stream_handler(logger, stream_level, stream_format)
-
-        self.logger = logger
+        set_stream_handler(self.logger, stream_level, stream_format)
 
 
 class SingleFileLogger(BaseLogger):
-    """This logger print message to console and also write log to files.
+    """
+    This logger print message to console and also write log to files.
 
     Only one log file will be used.
 
@@ -134,18 +160,22 @@ class SingleFileLogger(BaseLogger):
     日志被写入到单个文件中。
     """
 
-    def __init__(self, name=None, rand_name=False, path=None,
-                 logging_level=DebugLevel.debug,
-                 stream_level=DebugLevel.info,
+    def __init__(self,
+                 name=None,
+                 rand_name=False,
+                 path=None,
+                 logging_level=logging.DEBUG,
+                 stream_level=logging.INFO,
                  logging_format=DEFAULT_LOG_FORMAT,
                  stream_format=DEFAULT_STREAM_FORMAT,
                  reset=False):
-        logger = get_logger_by_name(name, rand_name)
         if path is None:  # pragma: no cover
-            raise ValueError("Please specify a file as log path!")
+            raise ValueError("Please specify a log file in ``path``!")
+
+        super(SingleFileLogger, self).__init__(name, rand_name)
 
         # Set Logging Level
-        logger.setLevel(logging_level)
+        self.logger.setLevel(logging_level)
 
         # Set File Handler
         if reset:
@@ -156,16 +186,15 @@ class SingleFileLogger(BaseLogger):
             path, mode="a", encoding="utf-8",
         )
         file_handler.setFormatter(logging.Formatter(logging_format))
-        logger.addHandler(file_handler)
+        self.logger.addHandler(file_handler)
 
         # Set Stream Handler
-        set_stream_handler(logger, stream_level, stream_format)
-
-        self.logger = logger
+        set_stream_handler(self.logger, stream_level, stream_format)
 
 
 class FileRotatingLogger(BaseLogger):
-    """Definition:
+    """
+    Definition:
 
     https://docs.python.org/2/library/logging.handlers.html#rotatingfilehandler
 
@@ -177,37 +206,41 @@ class FileRotatingLogger(BaseLogger):
     当日志文件的体积大于某个阈值时, 自动重名名, 将日志录入到新的文件中。
     """
 
-    def __init__(self, name=None, rand_name=False, path=None,
-                 logging_level=DebugLevel.debug,
-                 stream_level=DebugLevel.info,
+    def __init__(self,
+                 name=None,
+                 rand_name=False,
+                 path=None,
+                 logging_level=logging.DEBUG,
+                 stream_level=logging.INFO,
                  logging_format=DEFAULT_LOG_FORMAT,
                  stream_format=DEFAULT_STREAM_FORMAT,
                  max_bytes=1000000000,  # 1GB
                  backup_count=10):
-        logger = get_logger_by_name(name, rand_name)
         if path is None:  # pragma: no cover
-            raise ValueError("Please specify a file as log path!")
+            raise ValueError("Please specify a log file in ``path``!")
+
+        super(FileRotatingLogger, self).__init__(name, rand_name)
 
         # Set Logging Level
-        logger.setLevel(logging_level)
+        self.logger.setLevel(logging_level)
 
         # Set File Handler
         file_handler = RotatingFileHandler(
             path, mode="a",
-            maxBytes=max_bytes, backupCount=backup_count,
+            maxBytes=max_bytes,
+            backupCount=backup_count,
             encoding="utf-8",
         )
         file_handler.setFormatter(logging.Formatter(logging_format))
-        logger.addHandler(file_handler)
+        self.logger.addHandler(file_handler)
 
         # Set Stream Handler
-        set_stream_handler(logger, stream_level, stream_format)
-
-        self.logger = logger
+        set_stream_handler(self.logger, stream_level, stream_format)
 
 
 class TimeRotatingLogger(BaseLogger):
-    """Definition:
+    """
+    Definition:
 
     https://docs.python.org/2/library/logging.handlers.html#timedrotatingfilehandler
 
@@ -220,20 +253,24 @@ class TimeRotatingLogger(BaseLogger):
     根据日志发生的时间, 每隔一定时间就更换一个文件名。
     """
 
-    def __init__(self, name=None, rand_name=False, path=None,
-                 logging_level=DebugLevel.debug,
-                 stream_level=DebugLevel.info,
+    def __init__(self,
+                 name=None,
+                 rand_name=False,
+                 path=None,
+                 logging_level=logging.DEBUG,
+                 stream_level=logging.INFO,
                  logging_format=DEFAULT_LOG_FORMAT,
                  stream_format=DEFAULT_STREAM_FORMAT,
                  rotate_on_when="D",
                  interval=1,
                  backup_count=30):
-        logger = get_logger_by_name(name, rand_name)
         if path is None:  # pragma: no cover
-            raise ValueError("Please specify a file as log path!")
+            raise ValueError("Please specify a log file in ``path``!")
+
+        super(TimeRotatingLogger, self).__init__(name, rand_name)
 
         # Set Logging Level
-        logger.setLevel(logging_level)
+        self.logger.setLevel(logging_level)
 
         # Set File Handler
         file_handler = TimedRotatingFileHandler(
@@ -244,9 +281,7 @@ class TimeRotatingLogger(BaseLogger):
             encoding="utf-8",
         )
         file_handler.setFormatter(logging.Formatter(logging_format))
-        logger.addHandler(file_handler)
+        self.logger.addHandler(file_handler)
 
         # Set Stream Handler
-        set_stream_handler(logger, stream_level, stream_format)
-
-        self.logger = logger
+        set_stream_handler(self.logger, stream_level, stream_format)

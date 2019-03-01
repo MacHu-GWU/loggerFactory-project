@@ -13,7 +13,7 @@ __github_username__ = "MacHu-GWU"
 
 try:
     from .logger import (
-        DebugLevel,
+        BaseLogger,
         StreamOnlyLogger,
         SingleFileLogger,
         FileRotatingLogger,

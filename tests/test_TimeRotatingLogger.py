@@ -1,14 +1,13 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 import time
 
 import pytest
-from loggerFactory import TimeRotatingLogger
+from loggerFactory.logger import TimeRotatingLogger
 
 
 def test():
-    path = "log.txt"
+    path = os.path.join(os.path.dirname(__file__), "TimeRotating.txt")
     logger = TimeRotatingLogger(path=path, rotate_on_when="S")
 
     logger.debug("hello")

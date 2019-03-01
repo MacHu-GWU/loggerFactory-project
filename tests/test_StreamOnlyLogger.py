@@ -1,8 +1,7 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 import pytest
-from loggerFactory import StreamOnlyLogger
+from loggerFactory.logger import StreamOnlyLogger
 
 
 def test():
@@ -13,7 +12,7 @@ def test():
     logger.error("error", 3)
     logger.critical("critical", 4)
 
-    logger("show")
+    logger("show")  # displayed
     logger.enable_verbose = False  # disable display message
     logger("show")  # not displayed
 

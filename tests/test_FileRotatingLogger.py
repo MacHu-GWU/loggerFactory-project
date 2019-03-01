@@ -1,12 +1,11 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 import pytest
-from loggerFactory import FileRotatingLogger
+from loggerFactory.logger import FileRotatingLogger
 
 
 def test():
-    path = "log.txt"
+    path = os.path.join(os.path.dirname(__file__), "FileRotate.txt")
     logger = FileRotatingLogger(path=path, max_bytes=1)
 
     logger.debug("debug")  # nothing
