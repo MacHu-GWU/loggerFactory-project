@@ -1,3 +1,8 @@
+
+.. image:: https://readthedocs.org/projects/loggerFactory/badge/?version=latest
+    :target: https://loggerFactory.readthedocs.io/index.html
+    :alt: Documentation Status
+
 .. image:: https://travis-ci.org/MacHu-GWU/loggerFactory-project.svg?branch=master
     :target: https://travis-ci.org/MacHu-GWU/loggerFactory-project?branch=master
 
@@ -13,8 +18,35 @@
 .. image:: https://img.shields.io/pypi/pyversions/loggerFactory.svg
     :target: https://pypi.python.org/pypi/loggerFactory
 
-.. image:: https://img.shields.io/badge/Star_Me_on_GitHub!--None.svg?style=social
+.. image:: https://img.shields.io/badge/STAR_Me_on_GitHub!--None.svg?style=social
     :target: https://github.com/MacHu-GWU/loggerFactory-project
+
+------
+
+
+.. image:: https://img.shields.io/badge/Link-Document-blue.svg
+      :target: https://loggerFactory.readthedocs.io/index.html
+
+.. image:: https://img.shields.io/badge/Link-API-blue.svg
+      :target: https://loggerFactory.readthedocs.io/py-modindex.html
+
+.. image:: https://img.shields.io/badge/Link-Source_Code-blue.svg
+      :target: https://loggerFactory.readthedocs.io/py-modindex.html
+
+.. image:: https://img.shields.io/badge/Link-Install-blue.svg
+      :target: `install`_
+
+.. image:: https://img.shields.io/badge/Link-GitHub-blue.svg
+      :target: https://github.com/MacHu-GWU/loggerFactory-project
+
+.. image:: https://img.shields.io/badge/Link-Submit_Issue-blue.svg
+      :target: https://github.com/MacHu-GWU/loggerFactory-project/issues
+
+.. image:: https://img.shields.io/badge/Link-Request_Feature-blue.svg
+      :target: https://github.com/MacHu-GWU/loggerFactory-project/issues
+
+.. image:: https://img.shields.io/badge/Link-Download-blue.svg
+      :target: https://pypi.org/pypi/loggerFactory#files
 
 
 Welcome to ``loggerFactory`` Documentation
@@ -76,22 +108,6 @@ Example:
     )
     result.dump("result.txt")
     print(result)
-
-
-Quick Links
-------------------------------------------------------------------------------
-
-- .. image:: https://img.shields.io/badge/Link-Install-red.svg
-      :target: `install`_
-
-- .. image:: https://img.shields.io/badge/Link-GitHub-blue.svg
-      :target: https://github.com/MacHu-GWU/loggerFactory-project
-
-- .. image:: https://img.shields.io/badge/Link-Submit_Issue_and_Feature_Request-blue.svg
-      :target: https://github.com/MacHu-GWU/loggerFactory-project/issues
-
-- .. image:: https://img.shields.io/badge/Link-Download-blue.svg
-      :target: https://pypi.python.org/pypi/loggerFactory#downloads
 
 
 .. _install:
