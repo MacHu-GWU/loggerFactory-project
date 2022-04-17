@@ -6,6 +6,9 @@ from loggerFactory.logger import StreamOnlyLogger
 
 def test():
     logger = StreamOnlyLogger()
+    logger.remove_all_handler()
+    logger.recover_all_handler()
+
     logger.debug("debug", 0)  # not displayed
     logger.info("info", 1)
     logger.warning("warning", 2)
