@@ -3,11 +3,11 @@
     :target: https://loggerFactory.readthedocs.io/index.html
     :alt: Documentation Status
 
-.. image:: https://travis-ci.org/MacHu-GWU/loggerFactory-project.svg?branch=master
-    :target: https://travis-ci.org/MacHu-GWU/loggerFactory-project?branch=master
+.. image:: https://github.com/MacHu-GWU/loggerFactory-project/workflows/CI/badge.svg
+    :target: https://github.com/MacHu-GWU/loggerFactory-project/actions?query=workflow:CI
 
 .. image:: https://codecov.io/gh/MacHu-GWU/loggerFactory-project/branch/master/graph/badge.svg
-  :target: https://codecov.io/gh/MacHu-GWU/loggerFactory-project
+    :target: https://codecov.io/gh/MacHu-GWU/loggerFactory-project
 
 .. image:: https://img.shields.io/pypi/v/loggerFactory.svg
     :target: https://pypi.python.org/pypi/loggerFactory
@@ -25,28 +25,28 @@
 
 
 .. image:: https://img.shields.io/badge/Link-Document-blue.svg
-      :target: https://loggerFactory.readthedocs.io/index.html
+    :target: https://loggerFactory.readthedocs.io/index.html
 
 .. image:: https://img.shields.io/badge/Link-API-blue.svg
-      :target: https://loggerFactory.readthedocs.io/py-modindex.html
+    :target: https://loggerFactory.readthedocs.io/py-modindex.html
 
 .. image:: https://img.shields.io/badge/Link-Source_Code-blue.svg
-      :target: https://loggerFactory.readthedocs.io/py-modindex.html
+    :target: https://loggerFactory.readthedocs.io/py-modindex.html
 
 .. image:: https://img.shields.io/badge/Link-Install-blue.svg
-      :target: `install`_
+    :target: `install`_
 
 .. image:: https://img.shields.io/badge/Link-GitHub-blue.svg
-      :target: https://github.com/MacHu-GWU/loggerFactory-project
+    :target: https://github.com/MacHu-GWU/loggerFactory-project
 
 .. image:: https://img.shields.io/badge/Link-Submit_Issue-blue.svg
-      :target: https://github.com/MacHu-GWU/loggerFactory-project/issues
+    :target: https://github.com/MacHu-GWU/loggerFactory-project/issues
 
 .. image:: https://img.shields.io/badge/Link-Request_Feature-blue.svg
-      :target: https://github.com/MacHu-GWU/loggerFactory-project/issues
+    :target: https://github.com/MacHu-GWU/loggerFactory-project/issues
 
 .. image:: https://img.shields.io/badge/Link-Download-blue.svg
-      :target: https://pypi.org/pypi/loggerFactory#files
+    :target: https://pypi.org/pypi/loggerFactory#files
 
 
 Welcome to ``loggerFactory`` Documentation

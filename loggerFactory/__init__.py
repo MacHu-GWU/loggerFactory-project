@@ -10,7 +10,6 @@ __maintainer__ = "Sanhe Hu"
 __maintainer_email__ = "husanhe@gmail.com"
 __github_username__ = "MacHu-GWU"
 
-
 try:
     from .logger import (
         BaseLogger,

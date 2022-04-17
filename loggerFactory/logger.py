@@ -1,20 +1,26 @@
 # -*- coding: utf-8 -*-
 
 """
-Implements
+Implement different type of loggers.
 """
 
 from __future__ import print_function
+
 import logging
 from logging.handlers import RotatingFileHandler, TimedRotatingFileHandler
 from colorama import Fore, Back, Style
+
 from .rand_str import Charset, rand_str
 
 DEFAULT_LOG_FORMAT = "%(asctime)s; %(levelname)-8s; %(message)s"
 DEFAULT_STREAM_FORMAT = "%(message)s"
 
 
-def get_logger_by_name(name=None, rand_name=False, charset=Charset.HEX):
+def get_logger_by_name(
+    name=None,
+    rand_name=False,
+    charset=Charset.HEX,
+):
     """
     Get a logger by name.
 
@@ -27,7 +33,11 @@ def get_logger_by_name(name=None, rand_name=False, charset=Charset.HEX):
     return logger
 
 
-def set_stream_handler(logger, stream_level, stream_format):
+def set_stream_handler(
+    logger,
+    stream_level,
+    stream_format,
+):
     stream_handler = logging.StreamHandler()
     stream_handler.setLevel(stream_level)
     stream_handler.setFormatter(logging.Formatter(stream_format))
@@ -61,19 +71,27 @@ class BaseLogger(object):
         return self.logger.debug(self._indent(msg, indent), **kwargs)
 
     def info(self, msg, indent=0, **kwargs):
-        """invoke ``self.info.debug``"""
+        """
+        invoke ``self.info.debug``
+        """
         return self.logger.info(self._indent(msg, indent), **kwargs)
 
     def warning(self, msg, indent=0, **kwargs):
-        """invoke ``self.logger.warning``"""
+        """
+        invoke ``self.logger.warning``
+        """
         return self.logger.warning(self._indent(msg, indent), **kwargs)
 
     def error(self, msg, indent=0, **kwargs):
-        """invoke ``self.logger.error``"""
+        """
+        invoke ``self.logger.error``
+        """
         return self.logger.error(self._indent(msg, indent), **kwargs)
 
     def critical(self, msg, indent=0, **kwargs):
-        """invoke ``self.logger.critical``"""
+        """
+        invoke ``self.logger.critical``
+        """
         return self.logger.critical(self._indent(msg, indent), **kwargs)
 
     def show(self, msg, indent=0, style="", **kwargs):
@@ -137,11 +155,13 @@ class StreamOnlyLogger(BaseLogger):
     只将日志打印到控制台, 并不将日志信息写入到文件。
     """
 
-    def __init__(self,
-                 name=None,
-                 rand_name=False,
-                 stream_level=logging.INFO,
-                 stream_format=DEFAULT_STREAM_FORMAT):
+    def __init__(
+        self,
+        name=None,
+        rand_name=False,
+        stream_level=logging.INFO,
+        stream_format=DEFAULT_STREAM_FORMAT,
+    ):
         super(StreamOnlyLogger, self).__init__(name, rand_name)
 
         # Set Logging Level
@@ -157,22 +177,28 @@ class SingleFileLogger(BaseLogger):
 
     Only one log file will be used.
 
-    :param reset: boolean, if True, the old log content will be removed.
+    :type path: str
+    :param path: the absolute path to the log file
+
+    :type reset: bool
+    :param reset: if True, the old log content will be removed.
 
     **中文文档**
 
     日志被写入到单个文件中。
     """
 
-    def __init__(self,
-                 name=None,
-                 rand_name=False,
-                 path=None,
-                 logging_level=logging.DEBUG,
-                 stream_level=logging.INFO,
-                 logging_format=DEFAULT_LOG_FORMAT,
-                 stream_format=DEFAULT_STREAM_FORMAT,
-                 reset=False):
+    def __init__(
+        self,
+        name=None,
+        rand_name=False,
+        path=None,
+        logging_level=logging.DEBUG,
+        stream_level=logging.INFO,
+        logging_format=DEFAULT_LOG_FORMAT,
+        stream_format=DEFAULT_STREAM_FORMAT,
+        reset=False,
+    ):
         if path is None:  # pragma: no cover
             raise ValueError("Please specify a log file in ``path``!")
 
@@ -202,6 +228,7 @@ class FileRotatingLogger(BaseLogger):
 
     https://docs.python.org/2/library/logging.handlers.html#rotatingfilehandler
 
+    :param path: the absolute path to the log file
     :param max_bytes: max file size.
     :param backup_count: max number of files.
 
@@ -210,16 +237,18 @@ class FileRotatingLogger(BaseLogger):
     当日志文件的体积大于某个阈值时, 自动重名名, 将日志录入到新的文件中。
     """
 
-    def __init__(self,
-                 name=None,
-                 rand_name=False,
-                 path=None,
-                 logging_level=logging.DEBUG,
-                 stream_level=logging.INFO,
-                 logging_format=DEFAULT_LOG_FORMAT,
-                 stream_format=DEFAULT_STREAM_FORMAT,
-                 max_bytes=1000000000,  # 1GB
-                 backup_count=10):
+    def __init__(
+        self,
+        name=None,
+        rand_name=False,
+        path=None,
+        logging_level=logging.DEBUG,
+        stream_level=logging.INFO,
+        logging_format=DEFAULT_LOG_FORMAT,
+        stream_format=DEFAULT_STREAM_FORMAT,
+        max_bytes=1000000000,  # 1GB
+        backup_count=10,
+    ):
         if path is None:  # pragma: no cover
             raise ValueError("Please specify a log file in ``path``!")
 
@@ -257,17 +286,19 @@ class TimeRotatingLogger(BaseLogger):
     根据日志发生的时间, 每隔一定时间就更换一个文件名。
     """
 
-    def __init__(self,
-                 name=None,
-                 rand_name=False,
-                 path=None,
-                 logging_level=logging.DEBUG,
-                 stream_level=logging.INFO,
-                 logging_format=DEFAULT_LOG_FORMAT,
-                 stream_format=DEFAULT_STREAM_FORMAT,
-                 rotate_on_when="D",
-                 interval=1,
-                 backup_count=30):
+    def __init__(
+        self,
+        name=None,
+        rand_name=False,
+        path=None,
+        logging_level=logging.DEBUG,
+        stream_level=logging.INFO,
+        logging_format=DEFAULT_LOG_FORMAT,
+        stream_format=DEFAULT_STREAM_FORMAT,
+        rotate_on_when="D",
+        interval=1,
+        backup_count=30,
+    ):
         if path is None:  # pragma: no cover
             raise ValueError("Please specify a log file in ``path``!")
 

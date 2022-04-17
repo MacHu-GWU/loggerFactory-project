@@ -6,10 +6,11 @@ from pytest import raises, approx
 
 def test():
     import loggerFactory
-    loggerFactory.StreamOnlyLogger
-    loggerFactory.SingleFileLogger
-    loggerFactory.FileRotatingLogger
-    loggerFactory.TimeRotatingLogger
+
+    _ = loggerFactory.StreamOnlyLogger
+    _ = loggerFactory.SingleFileLogger
+    _ = loggerFactory.FileRotatingLogger
+    _ = loggerFactory.TimeRotatingLogger
 
 
 if __name__ == "__main__":
