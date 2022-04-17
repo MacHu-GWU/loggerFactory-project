@@ -1,6 +1,6 @@
 
-.. image:: https://readthedocs.org/projects/loggerFactory/badge/?version=latest
-    :target: https://loggerFactory.readthedocs.io/index.html
+.. image:: https://readthedocs.org/projects/loggerfactory/badge/?version=latest
+    :target: https://loggerfactory.readthedocs.io
     :alt: Documentation Status
 
 .. image:: https://github.com/MacHu-GWU/loggerFactory-project/workflows/CI/badge.svg
